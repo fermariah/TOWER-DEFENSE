@@ -1,0 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public interface IArmas //classe para definir a interface das armas
+{
+    void Dano(int atingir); //método c/ parâmetro para indicar que a quantidade de dano (inteiro)
+}
+
