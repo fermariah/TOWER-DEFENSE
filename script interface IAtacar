@@ -1,0 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public interface IAtacar //classe de interface para definir os ataques das torres
+{
+    void VidasAtingidas(int mortes); //método c/parâmetro para definir a quantidade de vidas atingidas
+}
+
