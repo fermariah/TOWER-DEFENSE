@@ -1,0 +1,55 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GameManager : MonoBehaviour //classe para representar o gerenciamento principal do jogo
+
+{
+    public static GameManager instance;//variável para representar o singleton
+    [SerializeField]
+    public Transform pontoInicio; //variável para definir o prefab do ponto de inicio
+    [SerializeField]
+    public Transform[] marcações; //variável para definir o prefab dos pontos principais da cena
+    public int poupança; //variável que representa a poupança financeira do jogo
+ 
+    private void Awake()    //singleton
+
+    {
+        instance = this; 
+    }
+
+    private void Start() //método para iniciar com 250 moedas 
+    {
+        poupança = 250; 
+    }
+
+    public void AumentarPoupança(int moedas) //método para aumentar a poupança
+    {
+        poupança += moedas; 
+    }
+
+    public bool Gastar(int moedas) //método para fazer com que o usuário gaste as moedas
+    {
+        if (moedas <= poupança) 
+
+        {
+            poupança -= moedas ; 
+            return; 
+        }
+        else
+        {
+            Debug.Log("Você não tem dinheiro o suficiente!"); 
+            return;       
+        }
+    }
+}
+
+public class CenaMenu: MonoBehaviour //classe herdeira para controlar a cena de menu
+{
+   [SerializeField]
+   Button menuBotao; //variável para definir o botao do menu
+   [SerializeField]
+   Button lojaBotao; //variável para definir o botao da loja
+   [SerializeField]
+   DropDown torresTipo; //variável para definir o dropdown dos tipos da torre (básica, média, avançada)
+} 
