@@ -1,0 +1,65 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Torres : MonoBehaviour, IArmas, IAtirar //classe para representar as torres do jogo
+{
+    [SerializeField]
+    float targetingRange = 5f; //variável para identificar cada torre
+    [SerializeField] 
+    LayerMask inimigoMask; //variável de camadas para identificar quais são os inimigos
+    [SerializeField] 
+    GameObject tiroPrefab; //variável para definir o prefab dos tiros em que as torres irão disparar
+    [SerializeField]
+    Transform firingPontos; //variável para definir os pontos onde as torres irão atirar    
+    [SerializeField]
+    float DanoPorSEG = 1f; //variável para definir os tiros disparados por segundo
+    Transform alvoInimigo; //variável para definir o alvo principal(inimigo)
+    float intervaloDisparo;//variável para definir o intervalo em que cada disparo vai ter
+
+    public void Atacar() //método para armazenar as classes derivadas
+    {
+        //implementação nas classes derivadas.
+    }
+
+ 
+   private void Update() //método para checar se o alvo foi atingido
+
+    {
+        if (alvoInimigo == null)      
+
+        {
+            AcharAlvo();
+            return; 
+        }
+       
+        else
+        {
+            intervaloDisparo += Time.deltaTime;           
+
+            if (intervaoDisparo >= 1f /DanoPorSEG)            
+
+            {
+                Atirar();
+                intervaloDisparo = 0f;  
+            }
+        }
+        
+    }
+
+    public void Atirar() //método para definir cada vez em que haverá um tiro
+    {
+        GameObject tirosObj = Instantiate(tiroPrefab, firingPonto.position, Quaternion.identity);       
+    }
+    
+    private void AcharAlvo() //método privado para verificar se achou o alvo
+
+    {
+        RaycastHit2D[] danos = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, inimigoMask);
+      
+        if (danos.Length > 0)
+        {
+            alvoInimigo = danos[0].transform;
+        }
+    }
+}
