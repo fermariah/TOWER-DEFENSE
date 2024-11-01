@@ -1,0 +1,59 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+
+public class Inimigos : MonoBehaviour //classe para definir as funções principais dos inimigos(andar, ser atingido)
+
+{
+    [SerializeField] 
+    Rigidbody2D RB; //variável para movimentar cada um dos inimigos
+    [SerializeField]
+    float velocidade = 5.0f; //variável para definir a velocidade de cada inimigo
+    Transform pontoPrincipal; //variável para definir o prefab do ponto pincipal de onde o inimigo irá spawnar
+    int index = 0; //variável para representar a índice do caminho da cena 
+    float velocidadeGeral; //variável para representar a velocidade de todos os inimigos em geral
+
+    private void Start() //método para iniciar a armazenar a velocidade e o inimigo
+    {
+        velocidadeGeral = velocidade; 
+        pontoPrincipal = GameManager.instance.marcações[index]; 
+    }
+
+    private void Update() //método para checar a distância do próximo ponto do caminho que o inimigo irá chegar
+    {
+        if (Vector2.Distance(pontoPrincipal.position, transform.position) <= 0.1f)  
+
+        {
+            index++; 
+
+            if (index == GameManager.instance.marcações.Length)         
+
+            {
+                Destroy(gameObject); 
+                return;
+            }
+            else
+            {
+                pontoPrincipal = GameManager.instance.marcações[index]; 
+            }
+        }
+    }
+
+
+    private void FixedUpdate() //método para alterar a área física do inimigo 
+    {
+        Vector2 direcao = (pontoPrincipal.position -  transform.position);         
+        RB.velocity = direcao * velocidade;       
+    }
+    
+    public void AtualizarVelocidade(float novaVelo) //método para atualizar a velocidade do inimigo ao longo do jogo
+    {
+        velocidade = novaVelo; 
+    }
+}
+
+public interface vida //classe com interface para definir a vida de cada inimigo
+{
+   void Vidas(int quantidade); //método para definir a quantidade de vidas dos inimigos
+}
